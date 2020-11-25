@@ -1,0 +1,4 @@
+{% for playlist in playlist_matches %}
+        <p>{% if playlist.image_url != '' %}<img height=200 src= "{{ playlist.img_url }}"/>&nbsp;{% endif %}
+                {{ playlist.num_matches}} - {{ playlist.other_playlist_name }} </p>
+{% endfor %}
