@@ -1,18 +1,28 @@
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOAuth
-from flask import Flask, render_template, request
+import spotipy.util as util
+from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
 
-
 @app.route('/')
-def get_user_info():
-    scope = "user-library-read"
+def home():
+    return render_template('login.html')
 
-    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))
-    playlist_names = get_user_playlists(sp)
-    return render_template('user.html', playlist_names=playlist_names)
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == "POST":
+        scope = "user-library-read"
+        username = 'duskippy-us'
+        token = util.prompt_for_user_token(username, scope)
+
+        if token:
+            sp = spotipy.Spotify(auth=token)
+            playlist_names = get_user_playlists(sp)
+            return render_template('user.html', playlist_names=playlist_names)
+    return render_template('login.html')
 
 
 @app.route('/match/<other_user_name>/<playlist_id>', methods=['GET', 'POST'])
@@ -131,7 +141,7 @@ def get_playlist_commonality(sp, playlist1, playlist2):
 def main():
 
     app.run(debug=True)
-    get_user_info()
+    home()
     test1, test2 = get_user_playlist2()
     print(test1, test2)
     # user, user_playlist = get_user_playlist()
