@@ -104,26 +104,28 @@ def get_playlist_commonality(sp, playlist1, playlist2):
                 'common_songs': matching_keys}
 
 #print(results['items'])
-"""while playlists:
-    comparison_playlist = set()
-    for playlist in (playlists['items']):
-        results = sp.playlist_tracks(playlist['id'])
-        for item in (results['items']):
-            try:
-                comparison_playlist.add(item['track']['id'])
-            except TypeError:
-                print("can't add")
-        matching_tracks_set = current_playlist_tracklist.intersection(comparison_playlist)
-        if len(matching_tracks_set) > 0:
-            print(len(matching_tracks_set), playlist['name'], matching_tracks_set)
-            matching_tracks_set.clear()
-        #print(results['items'])
-        # print("%4d %s" % (i + 1 + playlists['offset'],  playlist['name']))
-    '''if playlists['next']:
-        playlists = sp.next(playlists)
-    else:'''
-    playlists = None
-"""
+
+def fetch_playlist():
+    while playlists:
+        comparison_playlist = set()
+        for playlist in (playlists['items']):
+            results = sp.playlist_tracks(playlist['id'])
+            for item in (results['items']):
+                try:
+                    comparison_playlist.add(item['track']['id'])
+                except TypeError:
+                    print("can't add")
+            matching_tracks_set = current_playlist_tracklist.intersection(comparison_playlist)
+            if len(matching_tracks_set) > 0:
+                print(len(matching_tracks_set), playlist['name'], matching_tracks_set)
+                matching_tracks_set.clear()
+            #print(results['items'])
+            # print("%4d %s" % (i + 1 + playlists['offset'],  playlist['name']))
+        '''if playlists['next']:
+            playlists = sp.next(playlists)
+        else:'''
+        playlists = None
+
 
 """ for uri in pl_ids:
 
